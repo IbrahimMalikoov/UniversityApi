@@ -1,0 +1,32 @@
+﻿namespace UniversityApi.Common;
+
+public class ReturnResult<T>
+{
+    public int StatusCode { get; set; } = 200;
+    public bool IsSuccess { get; set; } = true;
+    public T? Result { get; set; }
+    public string? ErrorCode { get; set; }
+    public string? ErrorMessage { get; set; }
+    public string TraceId { get; set; } = Guid.NewGuid().ToString();
+
+    public static ReturnResult<T> Success(T result, int statusCode = 200)
+    {
+        return new ReturnResult<T>
+        {
+            StatusCode = statusCode,
+            IsSuccess = true,
+            Result = result
+        };
+    }
+
+    public static ReturnResult<T> Fail(string errorCode, string errorMessage, int statusCode)
+    {
+        return new ReturnResult<T>
+        {
+            StatusCode = statusCode,
+            IsSuccess = false,
+            ErrorCode = errorCode,
+            ErrorMessage = errorMessage
+        };
+    }
+}
